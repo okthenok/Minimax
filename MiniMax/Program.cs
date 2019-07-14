@@ -6,7 +6,7 @@ namespace MiniMax
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+
         }
     }
 }

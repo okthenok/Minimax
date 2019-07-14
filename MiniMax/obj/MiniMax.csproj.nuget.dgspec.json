@@ -10,7 +10,7 @@
         "projectUniqueName": "\\\\GMRDC1\\Folder Redirection\\Johnny.Pan\\Documents\\Visual Studio 2019\\Projects\\MiniMax\\MiniMax\\MiniMax.csproj",
         "projectName": "MiniMax",
         "projectPath": "\\\\GMRDC1\\Folder Redirection\\Johnny.Pan\\Documents\\Visual Studio 2019\\Projects\\MiniMax\\MiniMax\\MiniMax.csproj",
-        "packagesPath": "C:\\Users\\johnny.pan\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\Johnny.Pan\\.nuget\\packages\\",
         "outputPath": "\\\\GMRDC1\\Folder Redirection\\Johnny.Pan\\Documents\\Visual Studio 2019\\Projects\\MiniMax\\MiniMax\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -18,7 +18,7 @@
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\johnny.pan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Johnny.Pan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
