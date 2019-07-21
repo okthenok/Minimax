@@ -7,35 +7,44 @@ namespace MiniMax
     public class TicTacToe
     {
         int[,] board = new int[3, 3];
-        Toe currToe = new Toe();
+        Toe currToe;
+        Random rand = new Random();
 
-        public TicTacToe()
+        public TicTacToe(bool playerStarts)
         {
+            currToe = new Toe(board);
+            currToe.findMoves(playerStarts);
 
-        }
+            Minimaxer minimaxer = new Minimaxer();
+            minimaxer.Minimax(currToe, !playerStarts);
+        } 
 
-        public void playerMove(bool xTurn, int x, int y)
+        public void playerMove(int x, int y)
         {
-            currToe.findMoves(xTurn);
             var temp = board;
-            board[x, y] = 1; 
-
-            foreach (Toe move in currToe.Moves)
+            temp[x, y] = 1;
+            foreach (Toe toe in currToe.Moves)
             {
-                if (move.Board == temp)
+                if (temp == toe.Board)
                 {
-                    currToe = move;
+                    board = temp;
+                    currToe = toe;
+                    return;
                 }
             }
         }
-        public void compMove()
+
+        public void compMove(bool goesFirst)
         {
-            Minimaxer minimaxer = new Minimaxer();
-            minimaxer.Minimax(currToe, true);
-
-            List<Toe> moves = new List<Toe>();
-            moves = currToe.Moves;
-
+            List<Toe> goodMoves = new List<Toe>();
+            foreach (Toe toe in currToe.Moves)
+            {
+                if (toe.Value == 2)
+                {
+                    goodMoves.Add(toe);
+                }
+            }
+            currToe = goodMoves[rand.Next(goodMoves.Count)];
         }
 
     }

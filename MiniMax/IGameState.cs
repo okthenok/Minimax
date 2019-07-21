@@ -10,8 +10,8 @@ namespace MiniMax
         {
 
         }
-        public int Value { get; }
-        public bool IsTerminal { get; }
+        public int Value { get; set; }
+        public bool IsTerminal { get; set; }
         public IEnumerable<IGameState> Moves { get; set; }
     }
 }
