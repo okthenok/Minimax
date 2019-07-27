@@ -7,7 +7,7 @@ namespace MiniMax
     public class TicTacToe
     {
         int[,] board = new int[3, 3];
-        Toe currToe;
+        public Toe currToe;
         Random rand = new Random();
 
         public TicTacToe(bool playerStarts)
@@ -17,6 +17,7 @@ namespace MiniMax
 
             Minimaxer minimaxer = new Minimaxer();
             minimaxer.Minimax(currToe, !playerStarts);
+
         } 
 
         public void playerMove(int x, int y)
@@ -39,7 +40,7 @@ namespace MiniMax
             List<Toe> goodMoves = new List<Toe>();
             foreach (Toe toe in currToe.Moves)
             {
-                if (toe.Value == 2)
+                if (toe.Value == 1)
                 {
                     goodMoves.Add(toe);
                 }

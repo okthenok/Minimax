@@ -6,10 +6,6 @@ namespace MiniMax
 {
     public class Minimaxer
     {
-        int alpha = -1000;
-        int actual = 0;
-        int beta = 1000;
-
         public Minimaxer()
         {
 

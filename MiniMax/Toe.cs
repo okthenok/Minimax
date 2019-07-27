@@ -7,10 +7,6 @@ namespace MiniMax
     public class Toe : IGameState
     {
         public int[,] Board = new int[3, 3];
-        public Toe()
-        {
-
-        }
         public Toe(int[,] board)
         {
             Board = board;
@@ -19,7 +15,8 @@ namespace MiniMax
         public void findMoves(bool playerTurn)
         {
             List<Toe> moves = new List<Toe>();
-            var temp = Board;
+            var temp = (int[,])Board.Clone();
+
             for (int i = 0; i < Board.GetLength(0); i++)
             {
                 for (int j = 0; j < Board.GetLength(1); j++)
@@ -35,59 +32,61 @@ namespace MiniMax
                             temp[i, j] = -1;
                         }
                         moves.Add(new Toe(temp));
+                        moves[moves.Count - 1].CheckGameOver();
+
+                        for (int x = 0; i < Board.GetLength(0); i++)
+                        {
+                            for (int y = 0; j < Board.GetLength(1); j++)
+                            {
+                                temp[i, j] = Board[i, j];
+                            }
+                        }
                     }
                 }
             }
             Moves = moves;
 
+
+            // uh don't do this, do the additional going down the tree somewhere else, this will make stack overflow or (try) generate the whole tree
             bool nextMove = !playerTurn;
             foreach (Toe toe in moves)
             {
-                toe.findMoves(nextMove);
+                if (!toe.IsTerminal)
+                {
+                    toe.findMoves(nextMove);
+                }
             }
         }
 
         public void CheckGameOver()
         {
-            int row = 0; //maybe make this and column to be lists, and make the checks at the end instead with for loops
-            int column = 0;
+            int[] row = new int[3]; //maybe make this and column to be lists, and make the checks at the end instead with for loops
+            int[] column = new int[3];
             int lrdiagonal = 0;
             int rldiagonal = 0;
             for (int x = 0; x < Board.GetLength(0); x++)
             {
-                row = 0;
-                column = 0;
                 for (int y = 0; y < Board.GetLength(1); y++)
                 {
-                    row += Board[x, y];
-                    if (row == 3 || column == 3)
-                    {
-                        this.IsTerminal = true;
-                        this.Value = 1;
-                        return;
-                    }
-                    if (row == -3 || column == -3)
-                    {
-                        this.IsTerminal = true;
-                        this.Value = -1;
-                        return;
-                    }
+                    column[x] += Board[x, y];
                 }
                 for (int z = 0; z < Board.GetLength(1); z++)
                 {
-                    column += Board[z, x];
-                    if (row == 3 || column == 3)
-                    {
-                        this.IsTerminal = true;
-                        this.Value = 1;
-                        return;
-                    }
-                    if (row == -3 || column == -3)
-                    {
-                        this.IsTerminal = true;
-                        this.Value = -1;
-                        return;
-                    }
+                    row[x] += Board[z, x];
+                }
+            }
+
+            for (int i = 0; i < row.GetLength(0); i++)
+            {
+                if (column[i] == 3 || row[i] == 3)
+                {
+                    this.IsTerminal = true;
+                    this.Value = 1;
+                }
+                if (column[i] == -3 || row[i] == -3)
+                {
+                    this.IsTerminal = true;
+                    this.Value = -1;
                 }
             }
 
