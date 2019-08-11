@@ -7,14 +7,24 @@ namespace MiniMax
     public class Toe : IGameState
     {
         public int[,] Board = new int[3, 3];
+        public IEnumerable<IGameState> moves;
+        public bool playerTurn;
         public Toe(int[,] board)
         {
             Board = board;
+            CheckGameOver();
         }
 
-        public void findMoves(bool playerTurn)
+        public override IEnumerable<IGameState> Moves => moves ?? (moves = findMoves());
+
+        public IEnumerable<IGameState> findMoves()
         {
-            List<Toe> moves = new List<Toe>();
+            if (IsTerminal)
+            {
+                return new List<IGameState>();
+            }
+
+            List<IGameState> possibleMoves = new List<IGameState>();
             var temp = (int[,])Board.Clone();
 
             for (int i = 0; i < Board.GetLength(0); i++)
@@ -31,31 +41,14 @@ namespace MiniMax
                         {
                             temp[i, j] = -1;
                         }
-                        moves.Add(new Toe(temp));
-                        moves[moves.Count - 1].CheckGameOver();
+                        possibleMoves.Add(new Toe(temp));
 
-                        for (int x = 0; i < Board.GetLength(0); i++)
-                        {
-                            for (int y = 0; j < Board.GetLength(1); j++)
-                            {
-                                temp[i, j] = Board[i, j];
-                            }
-                        }
+                        temp = (int[,])Board.Clone();
                     }
                 }
             }
-            Moves = moves;
-
-
-            // uh don't do this, do the additional going down the tree somewhere else, this will make stack overflow or (try) generate the whole tree
-            bool nextMove = !playerTurn;
-            foreach (Toe toe in moves)
-            {
-                if (!toe.IsTerminal)
-                {
-                    toe.findMoves(nextMove);
-                }
-            }
+            playerTurn = !playerTurn;
+            return possibleMoves;
         }
 
         public void CheckGameOver()
@@ -75,7 +68,7 @@ namespace MiniMax
                     row[x] += Board[z, x];
                 }
             }
-
+            
             for (int i = 0; i < row.GetLength(0); i++)
             {
                 if (column[i] == 3 || row[i] == 3)

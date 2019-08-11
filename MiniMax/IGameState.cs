@@ -12,6 +12,6 @@ namespace MiniMax
         }
         public int Value { get; set; }
         public bool IsTerminal { get; set; }
-        public IEnumerable<IGameState> Moves { get; set; }
+        public virtual IEnumerable<IGameState> Moves { get; }
     }
 }

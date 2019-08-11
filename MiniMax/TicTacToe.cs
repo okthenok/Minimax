@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace MiniMax
 {
@@ -13,7 +14,7 @@ namespace MiniMax
         public TicTacToe(bool playerStarts)
         {
             currToe = new Toe(board);
-            currToe.findMoves(playerStarts);
+            currToe.playerTurn = playerStarts;
 
             Minimaxer minimaxer = new Minimaxer();
             minimaxer.Minimax(currToe, !playerStarts);
@@ -22,11 +23,13 @@ namespace MiniMax
 
         public void playerMove(int x, int y)
         {
-            var temp = board;
+            var temp = (int[,])board.Clone();
             temp[x, y] = 1;
             foreach (Toe toe in currToe.Moves)
             {
-                if (temp == toe.Board)
+                if (temp.Rank == toe.Board.Rank &&
+                    Enumerable.Range(0, temp.Rank).All(dimension => temp.GetLength(dimension) == toe.Board.GetLength(dimension)) &&
+                    temp.Cast<int>().SequenceEqual(toe.Board.Cast<int>()))
                 {
                     board = temp;
                     currToe = toe;
@@ -40,7 +43,7 @@ namespace MiniMax
             List<Toe> goodMoves = new List<Toe>();
             foreach (Toe toe in currToe.Moves)
             {
-                if (toe.Value == 1)
+                if (toe.Value == (goesFirst? 1 : -1))
                 {
                     goodMoves.Add(toe);
                 }
