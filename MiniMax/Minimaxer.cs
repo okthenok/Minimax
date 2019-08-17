@@ -23,7 +23,7 @@ namespace MiniMax
                 int value = int.MinValue;
                 foreach (IGameState move in state.Moves)
                 {
-                    value = Math.Max(value, Minimax(move, false));
+                    value = Math.Max(value, Minimax(move, false, alpha, beta));
                     move.Value = value;
                     alpha = Math.Max(alpha, value);
                     if (alpha >= beta)
@@ -38,7 +38,7 @@ namespace MiniMax
                 int value = int.MaxValue;
                 foreach (IGameState move in state.Moves)
                 {
-                    value = Math.Min(value, Minimax(move, true));
+                    value = Math.Min(value, Minimax(move, true, alpha, beta));
                     move.Value = value;
                     beta = Math.Min(beta, value);
                     if (alpha >= beta)

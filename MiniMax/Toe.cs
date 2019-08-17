@@ -8,9 +8,10 @@ namespace MiniMax
     {
         public int[,] Board = new int[3, 3];
         public IEnumerable<IGameState> moves;
-        public bool playerTurn;
-        public Toe(int[,] board)
+        public bool playerStarts;
+        public Toe(int[,] board, bool player)
         {
+            playerStarts = player;
             Board = board;
             CheckGameOver();
         }
@@ -33,7 +34,7 @@ namespace MiniMax
                 {
                     if (temp[i, j] == 0)
                     {
-                        if (playerTurn)
+                        if (playerStarts)
                         {
                             temp[i, j] = 1;
                         }
@@ -41,13 +42,13 @@ namespace MiniMax
                         {
                             temp[i, j] = -1;
                         }
-                        possibleMoves.Add(new Toe(temp));
+
+                        possibleMoves.Add(new Toe(temp, !playerStarts));
 
                         temp = (int[,])Board.Clone();
                     }
                 }
             }
-            playerTurn = !playerTurn;
             return possibleMoves;
         }
 
@@ -68,18 +69,20 @@ namespace MiniMax
                     row[x] += Board[z, x];
                 }
             }
-            
+
             for (int i = 0; i < row.GetLength(0); i++)
             {
                 if (column[i] == 3 || row[i] == 3)
                 {
                     this.IsTerminal = true;
                     this.Value = 1;
+                    return;
                 }
                 if (column[i] == -3 || row[i] == -3)
                 {
                     this.IsTerminal = true;
                     this.Value = -1;
+                    return;
                 }
             }
 
@@ -90,11 +93,13 @@ namespace MiniMax
             {
                 this.IsTerminal = true;
                 this.Value = 1;
+                return;
             }
             if (lrdiagonal == -3 || rldiagonal == -3)
             {
                 this.IsTerminal = true;
                 this.Value = -1;
+                return;
             }
 
             //tie check
