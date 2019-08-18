@@ -8,10 +8,12 @@ namespace MiniMax
     {
         public int[,] Board = new int[3, 3];
         public IEnumerable<IGameState> moves;
-        public bool playerStarts;
+        public bool playerTurn;
+        bool playerStarted;
         public Toe(int[,] board, bool player)
         {
-            playerStarts = player;
+            playerTurn = player;
+            playerStarted = player;
             Board = board;
             CheckGameOver();
         }
@@ -34,7 +36,7 @@ namespace MiniMax
                 {
                     if (temp[i, j] == 0)
                     {
-                        if (playerStarts)
+                        if (playerTurn)
                         {
                             temp[i, j] = 1;
                         }
@@ -43,7 +45,7 @@ namespace MiniMax
                             temp[i, j] = -1;
                         }
 
-                        possibleMoves.Add(new Toe(temp, !playerStarts));
+                        possibleMoves.Add(new Toe(temp, !playerTurn));
 
                         temp = (int[,])Board.Clone();
                     }
@@ -58,6 +60,7 @@ namespace MiniMax
             int[] column = new int[3];
             int lrdiagonal = 0;
             int rldiagonal = 0;
+
             for (int x = 0; x < Board.GetLength(0); x++)
             {
                 for (int y = 0; y < Board.GetLength(1); y++)
@@ -75,13 +78,13 @@ namespace MiniMax
                 if (column[i] == 3 || row[i] == 3)
                 {
                     this.IsTerminal = true;
-                    this.Value = 1;
+                    this.Value = 1 * (playerStarted ? 1 : -1);
                     return;
                 }
                 if (column[i] == -3 || row[i] == -3)
                 {
                     this.IsTerminal = true;
-                    this.Value = -1;
+                    this.Value = -1 * (playerStarted ? 1 : -1);
                     return;
                 }
             }
@@ -92,13 +95,13 @@ namespace MiniMax
             if (lrdiagonal == 3 || rldiagonal == 3)
             {
                 this.IsTerminal = true;
-                this.Value = 1;
+                this.Value = 1 * (playerStarted ? 1 : -1);
                 return;
             }
             if (lrdiagonal == -3 || rldiagonal == -3)
             {
                 this.IsTerminal = true;
-                this.Value = -1;
+                this.Value = -1 * ( playerStarted ? 1 : -1);
                 return;
             }
 

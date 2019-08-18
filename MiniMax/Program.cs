@@ -36,24 +36,27 @@ namespace MiniMax
                 }
                 Console.WriteLine("Which block would you like to select? (x, y)");
                 location = Array.ConvertAll(Console.ReadLine().Split(", "), int.Parse);
-                game.playerMove(location[1] - 1, location[0] - 1);
+                game.playerMove(location[1] - 1, location[0] - 1, playerStarts);
             }
             while (!game.currToe.IsTerminal)
             {
                 game.compMove(playerStarts);
 
-                for (int i = 0; i < game.currToe.Board.GetLength(0); i++)
+                if (!game.currToe.IsTerminal)
                 {
-                    sb.Remove(0, sb.Length);
-                    for (int j = 0; j < game.currToe.Board.GetLength(1); j++)
+                    for (int i = 0; i < game.currToe.Board.GetLength(0); i++)
                     {
-                        sb.Append(game.currToe.Board[i, j] + " ");
+                        sb.Remove(0, sb.Length);
+                        for (int j = 0; j < game.currToe.Board.GetLength(1); j++)
+                        {
+                            sb.Append(game.currToe.Board[i, j] + " ");
+                        }
+                        Console.WriteLine(sb.ToString());
                     }
-                    Console.WriteLine(sb.ToString());
+                    Console.WriteLine("Which block would you like to select? (x, y)");
+                    location = Array.ConvertAll(Console.ReadLine().Split(", "), int.Parse);
+                    game.playerMove(location[1] - 1, location[0] - 1, playerStarts);
                 }
-                Console.WriteLine("Which block would you like to select? (x, y)");
-                location = Array.ConvertAll(Console.ReadLine().Split(", "), int.Parse);
-                game.playerMove(location[1] - 1, location[0] - 1);
             }
             for (int i = 0; i < game.currToe.Board.GetLength(0); i++)
             {
@@ -64,7 +67,6 @@ namespace MiniMax
                 }
                 Console.WriteLine(sb.ToString());
             }
-            Console.ReadLine();
         }
     }
 }
