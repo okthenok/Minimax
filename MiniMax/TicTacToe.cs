@@ -10,14 +10,16 @@ namespace MiniMax
         int[,] board = new int[3, 3];
         public Toe currToe;
         Random rand = new Random();
+        Minimaxer minimaxer = new Minimaxer();
 
         public TicTacToe(bool playerStarts)
         {
-            currToe = new Toe(board, playerStarts);
+            currToe = new Toe(board, playerStarts, playerStarts);
 
-            Minimaxer minimaxer = new Minimaxer();
-            minimaxer.Minimax(currToe, playerStarts);   //make it so minimax is only called first when computer goes first
-                                                        //if player goes first, use minimax after decision was made
+            if (playerStarts)
+            {
+                minimaxer.Minimax(currToe, playerStarts);
+            } //probably will have to do the "call minimax after player moves if player starts" in Program.cs
         } 
 
         public void playerMove(int x, int y, bool playerStarts)
@@ -26,7 +28,9 @@ namespace MiniMax
             temp[x, y] = 1;
             foreach (Toe toe in currToe.Moves)
             {
-                if (toe.Board[x, y] == 1)
+                if (temp.Rank == toe.Board.Rank &&
+                    Enumerable.Range(0, temp.Rank).All(dimension => temp.GetLength(dimension) == toe.Board.GetLength(dimension) &&
+                    temp.Cast<int>().SequenceEqual(toe.Board.Cast<int>())))
                 {
                     board = (int[,])temp.Clone();
                     currToe = toe;
@@ -100,6 +104,11 @@ namespace MiniMax
             }
             currToe = goodMoves[rand.Next(goodMoves.Count)];
             board = (int[,])currToe.Board.Clone();
+        }
+
+        public void compMinimax()
+        {
+            minimaxer.Minimax(currToe, true);
         }
     }
 }

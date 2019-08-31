@@ -25,18 +25,11 @@ namespace MiniMax
             int[] location = new int[2];
             if (playerStarts)
             {
-                for (int i = 0; i < game.currToe.Board.GetLength(0); i++)
-                {
-                    sb.Remove(0, sb.Length);
-                    for (int j = 0; j < game.currToe.Board.GetLength(1); j++)
-                    {
-                        sb.Append(game.currToe.Board[i, j] + " ");
-                    }
-                    Console.WriteLine(sb.ToString());
-                }
-                Console.WriteLine("Which block would you like to select? (x, y)");
-                location = Array.ConvertAll(Console.ReadLine().Split(", "), int.Parse);
-                game.playerMove(location[1] - 1, location[0] - 1, playerStarts);
+                //make game idiotproof, make this in function, yadayada
+            }
+            else
+            {
+                game.compMinimax();
             }
             while (!game.currToe.IsTerminal)
             {
@@ -67,6 +60,22 @@ namespace MiniMax
                 }
                 Console.WriteLine(sb.ToString());
             }
+        }
+
+        void playerMove()
+        {
+            for (int i = 0; i < game.currToe.Board.GetLength(0); i++)
+            {
+                sb.Remove(0, sb.Length);
+                for (int j = 0; j < game.currToe.Board.GetLength(1); j++)
+                {
+                    sb.Append(game.currToe.Board[i, j] + " ");
+                }
+                Console.WriteLine(sb.ToString());
+            }
+            Console.WriteLine("Which block would you like to select? (x, y)");
+            location = Array.ConvertAll(Console.ReadLine().Split(", "), int.Parse);
+            game.playerMove(location[1] - 1, location[0] - 1, playerStarts);
         }
     }
 }

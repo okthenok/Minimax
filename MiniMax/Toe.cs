@@ -10,10 +10,10 @@ namespace MiniMax
         public IEnumerable<IGameState> moves;
         public bool playerTurn;
         bool playerStarted;
-        public Toe(int[,] board, bool player)
+        public Toe(int[,] board, bool player, bool playerStarts)
         {
             playerTurn = player;
-            playerStarted = player;
+            playerStarted = playerStarts;
             Board = board;
             CheckGameOver();
         }
@@ -45,7 +45,7 @@ namespace MiniMax
                             temp[i, j] = -1;
                         }
 
-                        possibleMoves.Add(new Toe(temp, !playerTurn));
+                        possibleMoves.Add(new Toe(temp, !playerTurn, playerStarted));
 
                         temp = (int[,])Board.Clone();
                     }
@@ -101,7 +101,7 @@ namespace MiniMax
             if (lrdiagonal == -3 || rldiagonal == -3)
             {
                 this.IsTerminal = true;
-                this.Value = -1 * ( playerStarted ? 1 : -1);
+                this.Value = -1 * (playerStarted ? 1 : -1);
                 return;
             }
 
