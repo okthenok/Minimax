@@ -11,7 +11,7 @@ namespace MiniMax
 
         }
 
-        public int Minimax(IGameState state, bool isMax/*, int alpha = int.MinValue, int beta = int.MaxValue*/)
+        public int Minimax(IGameState state, bool isMax, int alpha = int.MinValue, int beta = int.MaxValue)
         {
             if (state.IsTerminal) 
             {
@@ -23,14 +23,15 @@ namespace MiniMax
                 int value = int.MinValue;
                 foreach (IGameState move in state.Moves)
                 {
-                    value = Math.Max(value, Minimax(move, false/*, alpha, beta*/));
-                    state.Value = value;
-                    /*alpha = Math.Max(alpha, value);
+                    value = Math.Max(value, Minimax(move, false, alpha, beta));
+                    
+                    alpha = Math.Max(alpha, value);
                     if (alpha >= beta)
                     {
                         break;
-                    }*/
+                    }
                 }
+                state.Value = value;
                 return value;
             }
             else
@@ -38,14 +39,15 @@ namespace MiniMax
                 int value = int.MaxValue;
                 foreach (IGameState move in state.Moves)
                 {
-                    value = Math.Min(value, Minimax(move, true/*, alpha, beta*/));
-                    state.Value = value;
-                    /*beta = Math.Min(beta, value);
+                    value = Math.Min(value, Minimax(move, true, alpha, beta));
+                    
+                    beta = Math.Min(beta, value);
                     if (alpha >= beta)
                     {
                         break;
-                    }*/
+                    }
                 }
+                state.Value = value;
                 return value;
             }
         }

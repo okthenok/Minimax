@@ -16,7 +16,7 @@ namespace MiniMax
         {
             currToe = new Toe(board, playerStarts, playerStarts);
 
-            if (playerStarts)
+            if (!playerStarts)
             {
                 minimaxer.Minimax(currToe, playerStarts);
             } //probably will have to do the "call minimax after player moves if player starts" in Program.cs
@@ -37,7 +37,7 @@ namespace MiniMax
                     return;
                 }
 
-                /*List<Toe> goodMoves = new List<Toe>();
+                List<Toe> goodMoves = new List<Toe>();
                 int worst = playerStarts ? -1 : 1;
                 foreach (Toe t in currToe.Moves)
                 {
@@ -69,7 +69,7 @@ namespace MiniMax
                 {
                     Minimaxer minimaxer = new Minimaxer();
                     minimaxer.Minimax(currToe, playerStarts);
-                }*/
+                }
             }
         }
 
@@ -105,6 +105,7 @@ namespace MiniMax
             currToe = goodMoves[rand.Next(goodMoves.Count)];
             board = (int[,])currToe.Board.Clone();
         }
+
 
         public void compMinimax()
         {
